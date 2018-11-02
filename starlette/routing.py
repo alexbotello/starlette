@@ -4,6 +4,7 @@ import re
 import typing
 from concurrent.futures import ThreadPoolExecutor
 from enum import Enum
+from urllib.parse import unquote
 
 from starlette.datastructures import URL, URLPath
 from starlette.exceptions import HTTPException
@@ -324,6 +325,9 @@ class Router:
 
         if "router" not in scope:
             scope["router"] = self
+
+        path = scope["path"]
+        scope["path"] = unquote(path)
 
         partial = None
 
